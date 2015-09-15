@@ -53,7 +53,7 @@ gulp.task('style', ['clean'], () => {
 gulp.task('watch', () => {
   gulp.watch('components/**/*', ['script']);
   gulp.watch('styles/**/*', ['style']);
-})
+});
 
 gulp.task('compile', ['script', 'style']);
 

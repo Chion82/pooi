@@ -13,7 +13,7 @@ const config = {
     db: 'mongodb://localhost/pooi-development',
     redis: {
       host: '127.0.0.1',
-      port: 6379,
+      port: 6379
     },
     secret: 'YourSecretDevelopment'
   },
@@ -26,7 +26,7 @@ const config = {
     db: 'mongodb://localhost/pooi-production',
     redis: {
       host: '127.0.0.1',
-      port: 6379,
+      port: 6379
     },
     secret: 'YourSecretProduction'
   },
@@ -39,7 +39,7 @@ const config = {
     db: 'mongodb://localhost/pooi-test',
     redis: {
       host: '127.0.0.1',
-      port: 6379,
+      port: 6379
     },
     secret: 'YourSecretTest'
   }

@@ -1,4 +1,3 @@
-import fs from 'fs';
 import express from 'express';
 import glob from 'glob';
 import mongoose from 'mongoose';
