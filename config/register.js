@@ -39,7 +39,7 @@ export default async function (app, config) {
 
   // Errors
   if (env === 'development') {
-    app.use((err, req, res, next) => {
+    app.use((err, req, res) => {
       res.status(err.status || 500);
       res.send(`
         ${ err.message }
@@ -47,7 +47,7 @@ export default async function (app, config) {
       `);
     });
   } else {
-    app.use((err, req, res, next) => {
+    app.use((err, req, res) => {
       res.status(err.status || 500);
       res.send(err.message);
     });

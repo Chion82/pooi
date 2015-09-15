@@ -6,4 +6,4 @@ export default {
   render() {
     ReactDOM.render(<Example />, document.querySelector('app'));
   }
-}
+};
