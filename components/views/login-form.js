@@ -11,12 +11,16 @@ class LoginFormComponent extends React.Component {
   handleSubmit = async (e) => {
     try {
       this.refs.submit.asWaiting();
-      let res = await qwest.post('/api/auth', {
+      let { response } = await qwest.post('/api/auth', {
         username: this.refs.username.getValue(),
         password: this.refs.password.getValue()
       });
       this.refs.submit.asSuccess();
-    } catch (err) {
+      let info = JSON.parse(response).info;
+      if (info.ERROR)
+        throw new Error(info.MESSAGE);
+    } catch (e) {
+      console.error(e);
       this.refs.submit.asError();
     }
   }
