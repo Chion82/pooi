@@ -10,12 +10,12 @@ counterpart.setLocale(navigator.language);
 
 // Controllers
 import IndexController from './controllers/index';
-// import LoginController from './controllers/login';
+import LoginController from './controllers/login';
 import ExampleController from './controllers/example';
 
 let routes = {
   '/': () => IndexController.render(),
-//  '/login': () => LoginController.render(),
+  '/login': () => LoginController.render(),
   '/example': () => ExampleController.render()
 };
 let router = new Router(routes);
@@ -24,7 +24,11 @@ let currentRoute = () => {
   if (hash !== '' && hash.indexOf('/') != -1) {
     current = hash.substr(1);
   }
+  if (!localStorage || !localStorage.api_token) {
+    current = '/login';
+  }
   return current;
 };
 
 router.init(currentRoute());
+window.router = router;

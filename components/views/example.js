@@ -1,6 +1,6 @@
 import React from 'react';
-import Translate from 'react-translate-component';
 import io from 'socket.io-client';
+import __ from 'counterpart';
 
 class ExampleComponent extends React.Component {
   constructor(props, context) {
@@ -16,7 +16,7 @@ class ExampleComponent extends React.Component {
   render() {
     return (
       <h1>
-        <Translate { ...this.props } content='example.greeting' />
+        { __ ('example.greeting') }
       </h1>
     );
   }
