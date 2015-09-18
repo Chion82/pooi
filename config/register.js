@@ -7,11 +7,9 @@ import favicon from 'serve-favicon';
 import RedisStore from 'connect-redis';
 import glob from 'glob';
 
-import Promise from 'bluebird';
-let globAsync = Promise.promisify(glob);
 let RedisSession = RedisStore(session);
 
-export default async function (app, config) {
+export default function (app, io, config) {
   // Environments
   const env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
@@ -25,21 +23,28 @@ export default async function (app, config) {
     extended: true
   }));
   app.use(express.static(`${ config.root }/public`));
-  // app.use(favicon(`${ config.root }/public/img/favicon.ico`));
-  app.use(session({
+  app.use(favicon(`${ config.root }/public/img/favicon.ico`));
+  let sessionMiddleware = session({
     secret: config.secret,
     store: new RedisSession(config.redis),
     resave: false,
     saveUninitialized: false
-  }));
+  });
+  app.use(sessionMiddleware);
+  io.use((socket, next) => {
+    sessionMiddleware(socket.request, socket.request.res, next);
+  });
 
   // Controllers
-  let controllers = await globAsync(`${ config.root }/controllers/**/*.js`);
-  controllers.forEach((controller) => require(controller)(app));
+  let controllers = glob.sync(`${ config.root }/controllers/**/*.js`);
+  controllers.forEach((controller) => {
+    require(controller)(app, io);
+  });
 
   // Errors
   if (env === 'development') {
-    app.use((err, req, res) => {
+    app.use((err, req, res, next) => {
+      next(err);
       res.status(err.status || 500);
       res.send(`
         ${ err.message }
@@ -47,11 +52,12 @@ export default async function (app, config) {
       `);
     });
   } else {
-    app.use((err, req, res) => {
+    app.use((err, req, res, next) => {
+      next(err);
       res.status(err.status || 500);
       res.send(err.message);
     });
   }
 
   return app;
-};
+}

@@ -29,3 +29,4 @@ node_modules
 # Compiled assets
 public/js/bundle.js
 public/css/bundle.css
+public/fonts

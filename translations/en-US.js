@@ -1,5 +1,7 @@
+import example from './en-US/example';
+import login from './en-US/login';
+
 export default {
-  example: {
-    greeting: 'It works'
-  }
+  example,
+  login
 };
